@@ -33,6 +33,10 @@ bool isStatusLedOn = false;
 unsigned long previousLedOnMillis = 0;
 unsigned long statusLedBlinkInterval = 5000;
 
+// List of intervals in milliseconds from the next feed at which the led status light blink frequency
+// will be increased. Needs to be stored in ascending order for calculation to work correctly.
+int increasingLedStatusIntervals[3] = { 2500, 5000, 10000 };
+
 Servo servo;
 
 void setup() {
@@ -64,6 +68,24 @@ void blinkStatusLight(unsigned long currentMillis) {
     if ((currentMillis - previousLedOnMillis) >= STATUS_LED_BLINK_DURATION) {
       digitalWrite(STATUS_LED_PIN, LOW);
       isStatusLedOn = false;
+      calculateNextBlinkInterval(currentMillis);
+    }
+  }
+}
+
+void calculateNextBlinkInterval(unsigned long currentMillis) {
+  // Caculate the duration until the next feed
+  long durationUntilNextFeed = (FISH_FEED_INTERVAL_MILLIS - (currentMillis - previousFishFeedMillis));
+
+  // Calculate the size of the array containing the dynamic interval data
+  size_t intervalArrLen = sizeof(increasingLedStatusIntervals)/sizeof(increasingLedStatusIntervals[0]);
+
+  // As the time until the duration increases, decrease the interval at which the status led blinks
+  for (size_t i = 0; i < intervalArrLen; i++) {
+    int interval = increasingLedStatusIntervals[i];
+    if (durationUntilNextFeed <= interval) {
+      statusLedBlinkInterval = (interval / 10);
+      break;
     }
   }
 }
@@ -96,5 +118,7 @@ void stopFishFeed() {
   digitalWrite(STATUS_LED_PIN, LOW);
   isFishFeedInProgress = false;
   isStatusLedOn = false;
+
+  // Reset the status led blink interval to the default value
   statusLedBlinkInterval = STATUS_LED_BLINK_DEFAULT_INTERVAL;
 }
