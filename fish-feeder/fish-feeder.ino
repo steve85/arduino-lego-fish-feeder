@@ -9,8 +9,8 @@ const int SERVO_PIN = 9;
 // Set the speed that the servo should rotate at once the feed starts and the duration in milliseconds
 // that the servo should rotate at this speed for (these two values need to be calibrated so that the 
 // combination of these values produces a result where the servo completes one exact rotation)
-const int SERVO_ROTATION_SPEED = 105;
-const int SERVO_ROTATION_DURATION = 3500;
+const int SERVO_ROTATION_SPEED = 110;
+const int SERVO_ROTATION_DURATION = 2500;
 
 // Set the off position that will need to be written in order for the servo to stop rotation
 const int SERVO_STOP_POSITION = 92;
@@ -26,6 +26,7 @@ const int STATUS_LED_BLINK_DURATION = 50;
 const int STATUS_LED_BLINK_DEFAULT_INTERVAL = 5000;
 
 bool isFishFeedInProgress = false;
+int fishFeedCount = 0;
 unsigned long fishFeedStartMillis = 0;
 unsigned long previousFishFeedMillis = 0;
 
@@ -105,7 +106,9 @@ void evaluateFishFeed(unsigned long currentMillis) {
 }
 
 void startFishFeed() {
-  Serial.println("Start fish feed");
+  fishFeedCount++;
+  Serial.print("Fish Feed Start - Count: ");
+  Serial.println(fishFeedCount);
   servo.write(SERVO_ROTATION_SPEED);
   digitalWrite(STATUS_LED_PIN, HIGH);
   isFishFeedInProgress = true;
@@ -113,7 +116,7 @@ void startFishFeed() {
 }
 
 void stopFishFeed() {
-  Serial.println("Stop fish feed");
+  Serial.println("Fish Feed Complete");
   servo.write(SERVO_STOP_POSITION);
   digitalWrite(STATUS_LED_PIN, LOW);
   isFishFeedInProgress = false;
