@@ -4,13 +4,13 @@
 const long FISH_FEED_INTERVAL_MILLIS = 30000;
 
 // Set the Digital I/O pin that the servo control wire is connected to
-const int SERVO_PIN = 0;
+const int SERVO_PIN = 9;
 
 // Set the speed that the servo should rotate at once the feed starts and the duration in milliseconds
 // that the servo should rotate at this speed for (these two values need to be calibrated so that the 
 // combination of these values produces a result where the servo completes one exact rotation)
-const int SERVO_ROTATION_SPEED = 110;
-const int SERVO_ROTATION_DURATION = 2130;
+const int SERVO_ROTATION_SPEED = 105;
+const int SERVO_ROTATION_DURATION = 3500;
 
 // Set the off position that will need to be written in order for the servo to stop rotation
 const int SERVO_STOP_POSITION = 92;
