@@ -9,7 +9,7 @@ const bool IS_IMMEDIATE_START = true;
 const int IMMEDIATE_START_DELAY_MILLIS = 10000;
 
 // Set the number of milliseconds interval between fish feeds
-const long FISH_FEED_INTERVAL_MILLIS = 30000;
+const long FISH_FEED_INTERVAL_MILLIS = 86400000; // 86,400,000 = 24 hours
 
 // Set the Digital I/O pin that the servo control wire is connected to
 const int SERVO_PIN = 9;
@@ -18,7 +18,7 @@ const int SERVO_PIN = 9;
 // that the servo should rotate at this speed for (these two values need to be calibrated so that the 
 // combination of these values produces a result where the servo completes one exact rotation)
 const int SERVO_ROTATION_SPEED = 110;
-const int SERVO_ROTATION_DURATION = 2450;
+const int SERVO_ROTATION_DURATION = 2520;
 
 // Set the off position that will need to be written in order for the servo to stop rotation
 const int SERVO_STOP_POSITION = 92;
